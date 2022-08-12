@@ -11,4 +11,10 @@ const getByPK = async (req, res) => {
   return res.status(200).json(response);
 };
 
-module.exports = { getAll, getByPK };
+const add = async (req, res) => {
+  const { name } = req.body;
+  const response = await productsService.add(name);
+  return res.status(201).json(response);
+};
+
+module.exports = { getAll, getByPK, add };

@@ -9,4 +9,6 @@ const getByPK = async (id) => {
   return product;
 };
 
-module.exports = { getAll, getByPK };
+const add = async (name) => productsModel.add(name);
+
+module.exports = { getAll, getByPK, add };
