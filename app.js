@@ -1,8 +1,10 @@
 const express = require('express');
+const routes = require('./routes');
 
 const app = express();
 
-// initial commit
+app.use('/products', routes.productsRoute);
+
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.send();
