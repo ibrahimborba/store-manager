@@ -50,7 +50,7 @@ describe('Services get products from Database', () => {
       });
     });
 
-/*     describe('Error case', () => {
+/*    describe('Error case', () => {
       before(() => {
         const stubResolve = null;
         const stubThrows = { status: 404, message: 'Product not found' };

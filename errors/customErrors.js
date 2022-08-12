@@ -4,4 +4,4 @@ const customError = (status, messsage) => {
   throw err;
 };
 
-module.exports = customError;
+module.exports = { customError };
