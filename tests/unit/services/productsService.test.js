@@ -73,7 +73,7 @@ describe('Service add product to Database', () => {
   describe('Add product successfully', () => {
     before(() => {
       const stubResolve = { id: 4, name: "ProdutoX" };
-      sinon.stub(productsModel, 'add').resolves([stubResolve]);
+      sinon.stub(productsModel, 'add').resolves(stubResolve);
     });
 
     after(() => productsModel.add.restore());

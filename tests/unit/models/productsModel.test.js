@@ -68,8 +68,8 @@ describe('Model get products from Database', () => {
 describe('Model add product to Database', () => {
   describe('Add product successfully', () => {
     before(() => {
-      const stubResolve = [{ id: 4, name: "ProdutoX" }];
-      sinon.stub(connection, 'execute').resolves([stubResolve]);
+      const stubResolve = [{ insertId: 4, name: "ProdutoX" }];
+      sinon.stub(connection, 'execute').resolves(stubResolve);
     });
 
     after(() => connection.execute.restore());
@@ -79,7 +79,7 @@ describe('Model add product to Database', () => {
       expect(result).to.be.an('object');
     });
     it('object has expected keys and values', async () => {
-      const result = await productsModel.add();
+      const result = await productsModel.add("ProdutoX");
       expect(result).to.eql({ id: 4, name: "ProdutoX" });
     });
   });
