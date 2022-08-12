@@ -1,15 +1,14 @@
 const productsService = require('../services/products.service');
 
-const { error } = console;
-
 const getAll = async (_req, res) => {
-  try {
-    const response = await productsService.getAll();
-    return res.status(200).json(response);
-  } catch (err) {
-    error(err);
-    return res.status(500).json(err.message);
-  }
+  const response = await productsService.getAll();
+  return res.status(200).json(response);
 };
 
-module.exports = { getAll };
+const getByPK = async (req, res) => {
+  const { id } = req.params;
+  const response = await productsService.getByPK(id);
+  return res.status(200).json(response);
+};
+
+module.exports = { getAll, getByPK };

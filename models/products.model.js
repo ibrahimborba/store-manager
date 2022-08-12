@@ -5,4 +5,13 @@ const getAll = async () => {
   return products;
 };
 
-module.exports = { getAll };
+const getByPK = async (id) => {
+  const [product] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE id = ?;',
+    [id],
+  );
+  if (!product[0]) return null;
+  return product[0];
+};
+
+module.exports = { getAll, getByPK };
