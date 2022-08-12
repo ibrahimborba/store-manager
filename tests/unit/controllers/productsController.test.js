@@ -1,9 +1,9 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const productsService = require('../../../models/products.service');
-const productsController = require('../../../models/products.controller');
+const productsService = require('../../../services/products.service');
+const productsController = require('../../../controllers/products.controller');
 
-describe('Get products from Database', () => {
+describe('Controllers get products from Database', () => {
   describe('Get all products', () => {
     const response = {};
     const request = {};
@@ -35,7 +35,7 @@ describe('Get products from Database', () => {
     describe('Success case', () => {
       const response = {};
       const request = { params: '1' };
-      const stubResolve = { id: 2, name: "Traje de encolhimento" };
+      const stubResolve = { id: 1, name: "Martelo de Thor" };
       before(() => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
@@ -51,24 +51,6 @@ describe('Get products from Database', () => {
       it('to be called with object', async () => {
         await productsController.getByPK(request, response);
         expect(response.json.calledWith({ id: 1, name: "Martelo de Thor" })).to.be.equal(true);
-      });
-    })
-
-    describe('Error case', () => {
-      const response = {};
-      const request = { params: '100000' };
-      const stubResolve = [];
-      before(() => {
-        response.status = sinon.stub().returns(response);
-        response.json = sinon.stub().returns();
-        sinon.stub(productsService, 'getByPK').resolves(stubResolve);
-      });
-
-      after(() => productsService.getByPK.restore());
-
-      it('to be called with status 404', async () => {
-        await productsController.getByPK(request, response);
-        expect(response.status.calledWith(404)).to.be.equal(true);
       });
     })
   });

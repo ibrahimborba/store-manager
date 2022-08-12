@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/products.model');
 
-describe('Get products from Database', () => {
+describe('Model get products from Database', () => {
   describe('Get all products', () => {
     before(() => {
       const stubResolve = [
@@ -33,7 +33,7 @@ describe('Get products from Database', () => {
     const ID = 1;
     describe('Success case', () => {
       before(() => {
-        const stubResolve = [{ id: 2, name: "Traje de encolhimento" }];
+        const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
         sinon.stub(connection, 'execute').resolves([stubResolve]);
       });
 
@@ -45,7 +45,7 @@ describe('Get products from Database', () => {
       });
       it('object has expected keys', async () => {
         const result = await productsModel.getByPK('1');
-        expect(result[0]).to.include.all.keys('id', 'name');
+        expect(result).to.include.all.keys('id', 'name');
       });
     })
 
@@ -58,7 +58,7 @@ describe('Get products from Database', () => {
       after(() => connection.execute.restore());
 
       it('returns null if product does not exist in database', async () => {
-        const result = await productsModel.getByPK('100000');
+        const result = await productsModel.getByPK('id');
         expect(result).to.be.a('null');
       });
     })

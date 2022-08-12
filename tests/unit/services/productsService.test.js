@@ -1,9 +1,10 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const productsModel = require('../../../models/products.model');
-const productsService = require('../../../models/products.service');
+const productsService = require('../../../services/products.service');
+const errors = require('../../../errors/customErrors');
 
-describe('Get products from Database', () => {
+describe('Services get products from Database', () => {
   describe('Get all products', () => {
     before(() => {
       const stubResolve = [
@@ -33,7 +34,7 @@ describe('Get products from Database', () => {
     const ID = 1;
     describe('Success case', () => {
       before(() => {
-        const stubResolve = { id: 2, name: "Traje de encolhimento" };
+        const stubResolve = { id: 1, name: "Martelo de Thor" };
         sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
       });
 
@@ -45,22 +46,28 @@ describe('Get products from Database', () => {
       });
       it('object has expected keys', async () => {
         const result = await productsService.getByPK('1');
-        expect(result[0]).to.include.all.keys('id', 'name');
+        expect(result).to.include.all.keys('id', 'name');
       });
-    })
+    });
 
-    describe('Error case', () => {
+/*     describe('Error case', () => {
       before(() => {
-        const stubResolve = [];
+        const stubResolve = null;
+        const stubThrows = { status: 404, message: 'Product not found' };
         sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
+        sinon.stub(errors, 'customError').throws(stubThrows);
       });
 
-      after(() => productsModel.getByPK.restore());
-
-      it('returns null if product does not exist in database', async () => {
-        const result = await productsService.getByPK('100000');
-        expect(result).to.be.a('null');
+      after(() => {
+        productsModel.getByPK.restore();
+        errors.customError.restore();
       });
-    })
+
+      it('throws an error if product does not exist in database', async () => {
+        await productsService.getByPK('id');
+        expect(errors.customError).to.throw('Product not found');
+        // expect(err.message).to.be.an('object');
+      });
+    }); */
   });
 });
