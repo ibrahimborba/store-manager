@@ -48,10 +48,34 @@ describe('Controllers get products from Database', () => {
         await productsController.getByPK(request, response);
         expect(response.status.calledWith(200)).to.be.equal(true);
       });
-      it('to be called with object', async () => {
+      it('to be called with an object', async () => {
         await productsController.getByPK(request, response);
         expect(response.json.calledWith({ id: 1, name: "Martelo de Thor" })).to.be.equal(true);
       });
     })
+  });
+});
+
+describe('Controller add product to Database', () => {
+  describe('Add product successfully', () => {
+      const response = {};
+      const request = { body: { id: 4, name: "ProdutoX" } };
+      const stubResolve = { id: 4, name: "ProdutoX" };
+      before(() => {
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+        sinon.stub(productsService, 'add').resolves(stubResolve);
+      });
+
+    after(() => productsService.add.restore());
+
+    it('to be called with status 201', async () => {
+      await productsController.getByPK(request, response);
+      expect(response.status.calledWith(201)).to.be.equal(true);
+    });
+    it('to be called with an object', async () => {
+      await productsController.getByPK(request, response);
+      expect(response.json.calledWith({ id: 4, name: "ProdutoX" })).to.be.equal(true);
+    });
   });
 });

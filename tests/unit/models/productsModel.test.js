@@ -16,16 +16,16 @@ describe('Model get products from Database', () => {
     after(() => connection.execute.restore());
 
     it('returns an array of objects', async () => {
-      const response = await productsModel.getAll();
-      expect(response).to.be.an('array');
+      const result = await productsModel.getAll();
+      expect(result).to.be.an('array');
     });
     it('array elements are objects', async () => {
-      const response = await productsModel.getAll();
-      expect(response[0]).to.be.an('object');
+      const result = await productsModel.getAll();
+      expect(result[0]).to.be.an('object');
     });
     it('object has expected keys', async () => {
-      const response = await productsModel.getAll();
-      expect(response[0]).to.include.all.keys('id', 'name');
+      const result = await productsModel.getAll();
+      expect(result[0]).to.include.all.keys('id', 'name');
     });
   });
 
@@ -62,5 +62,25 @@ describe('Model get products from Database', () => {
         expect(result).to.be.a('null');
       });
     })
+  });
+});
+
+describe('Model add product to Database', () => {
+  describe('Add product successfully', () => {
+    before(() => {
+      const stubResolve = [{ id: 4, name: "ProdutoX" }];
+      sinon.stub(connection, 'execute').resolves([stubResolve]);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('returns an object', async () => {
+      const result = await productsModel.add();
+      expect(result).to.be.an('object');
+    });
+    it('object has expected keys and values', async () => {
+      const result = await productsModel.add();
+      expect(result).to.eql({ id: 4, name: "ProdutoX" });
+    });
   });
 });

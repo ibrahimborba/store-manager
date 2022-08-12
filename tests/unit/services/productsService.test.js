@@ -53,7 +53,7 @@ describe('Services get products from Database', () => {
 /*    describe('Error case', () => {
       before(() => {
         const stubResolve = null;
-        const stubThrows = { status: 404, message: 'Product not found' };
+        const stubThrows = new Error('Product not found');
         sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
         sinon.stub(errors, 'customError').throws(stubThrows);
       });
@@ -69,5 +69,25 @@ describe('Services get products from Database', () => {
         // expect(err.message).to.be.an('object');
       });
     }); */
+  });
+});
+
+describe('Service add product to Database', () => {
+  describe('Add product successfully', () => {
+    before(() => {
+      const stubResolve = { id: 4, name: "ProdutoX" };
+      sinon.stub(productsModel, 'add').resolves([stubResolve]);
+    });
+
+    after(() => productsModel.add.restore());
+
+    it('returns an object', async () => {
+      const result = await productsService.add();
+      expect(result).to.be.an('object');
+    });
+    it('object has expected keys and values', async () => {
+      const result = await productsService.add();
+      expect(result).to.eql({ id: 4, name: "ProdutoX" });
+    });
   });
 });
