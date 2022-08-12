@@ -70,11 +70,11 @@ describe('Controller add product to Database', () => {
     after(() => productsService.add.restore());
 
     it('to be called with status 201', async () => {
-      await productsController.getByPK(request, response);
+      await productsController.add(request, response);
       expect(response.status.calledWith(201)).to.be.equal(true);
     });
     it('to be called with an object', async () => {
-      await productsController.getByPK(request, response);
+      await productsController.add(request, response);
       expect(response.json.calledWith({ id: 4, name: "ProdutoX" })).to.be.equal(true);
     });
   });
