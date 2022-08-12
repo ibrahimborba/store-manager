@@ -1,4 +1,6 @@
 const express = require('express');
+const errorMiddleware = require('./middlewares/errorMiddleware');
+require('express-async-errors');
 const routes = require('./routes');
 
 const app = express();
@@ -9,6 +11,8 @@ app.use('/products', routes.productsRoute);
 app.get('/', (_request, response) => {
   response.send();
 });
+
+app.use(errorMiddleware);
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima
