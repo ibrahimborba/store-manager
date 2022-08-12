@@ -50,20 +50,25 @@ describe('Services get products from Database', () => {
       });
     });
 
-   describe('Error case', () => {
-      before(() => {
-        const stubThrows = { message: 'Product not found'};
-        sinon.stub(productsModel, 'getByPK').throws(stubThrows);
-      });
+    describe('Error case', () => {
+      it('checks if product exists in database', async () => {
+        const stubResolve = null;
+        sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
 
-      after(() => {
-        productsModel.getByPK.restore();
-      });
-
-      it('throws an error if product does not exist in database', async () => {
         await productsService.getByPK('id').catch((err) => {
           expect(err.message).to.equal('Product not found');
         });
+      });
+      
+     it('throws an error if product does not exist in database', async () => {
+        const stubThrows = { message: 'Product not found'};
+        sinon.stub(productsModel, 'getByPK').throws(stubThrows);
+
+        await productsService.getByPK('id').catch((err) => {
+          expect(err.message).to.equal('Product not found');
+        });
+
+        productsModel.getByPK.restore();
       });
     });
   });
