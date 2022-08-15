@@ -23,4 +23,11 @@ const erase = async (req, res) => {
   return res.status(204).end();
 };
 
-module.exports = { add, getAll, getByPK, erase };
+const update = async (req, res) => {
+  const { id } = req.params;
+  const itemsUpdated = req.body;
+  const response = await salesService.update({ saleId: id, itemsUpdated });
+  return res.status(200).json(response);
+};
+
+module.exports = { add, getAll, getByPK, update, erase };

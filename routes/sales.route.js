@@ -10,6 +10,7 @@ router.route('/')
 
 router.route('/:id')
   .get(salesController.getByPK)
+  .put(salesMiddleware.validator, salesController.update)
   .delete(salesController.erase);
 
 module.exports = router;

@@ -48,4 +48,19 @@ const erase = async (id) => {
   return connection.execute('DELETE FROM StoreManager.sales WHERE id = ?;', [id]);
 };
 
-module.exports = { add, getAll, getByPK, erase };
+const update = async (saleId, itemsUpdated) => {
+  itemsUpdated.forEach(async (item) => {
+    await connection.execute(
+      'UPDATE StoreManager.sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?;',
+      [item.quantity, saleId, item.productId],
+    );
+  });
+
+  const saleUpdated = {
+    saleId,
+    itemsUpdated,
+  };
+  return saleUpdated;
+};
+
+module.exports = { add, getAll, getByPK, update, erase };

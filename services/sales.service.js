@@ -22,9 +22,23 @@ const getByPK = async (id) => {
 };
 
 const erase = async (id) => {
-  const product = await salesModel.getByPK(id);
-  if (!product) return errors.customError(404, 'Sale not found');
+  const sale = await salesModel.getByPK(id);
+  if (!sale) return errors.customError(404, 'Sale not found');
   return salesModel.erase(id);
 };
 
-module.exports = { add, getAll, getByPK, erase };
+const update = async ({ saleId, itemsUpdated }) => {
+  const sale = await salesModel.getByPK(saleId);
+  if (!sale) return errors.customError(404, 'Sale not found');
+
+  const productNotFound = await itemsUpdated.reduce(async (acc, item) => {
+    const product = await productsModel.getByPK(item.productId);
+    if (!product) return true;
+    return acc;
+  }, false);
+  if (productNotFound) return errors.customError(404, 'Product not found');
+
+  return salesModel.update(saleId, itemsUpdated);
+};
+
+module.exports = { add, getAll, getByPK, update, erase };
