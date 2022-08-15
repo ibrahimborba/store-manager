@@ -27,17 +27,6 @@ describe('Model add sales to Database', () => {
       const result = await salesModel.add(sales);
       expect(result).to.be.an('object');
     });
-/*     it('object has expected keys and values', async () => {
-      const expected = {
-        id: 3,
-        itemsSold: [
-          { productId: 1, quantity: 1 },
-          { productId: 2, quantity: 5 },
-        ],
-      };
-      const result = await salesModel.add(sales);
-      expect(result).to.eql(expected);
-    }); */
   });
 });
 
