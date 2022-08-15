@@ -6,4 +6,9 @@ const add = async (req, res) => {
   return res.status(201).json(response);
 };
 
-module.exports = { add };
+const getAll = async (_req, res) => {
+  const response = await salesService.getAll();
+  return res.status(200).json(response);
+};
+
+module.exports = { add, getAll };

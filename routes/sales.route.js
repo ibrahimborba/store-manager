@@ -5,6 +5,7 @@ const salesMiddleware = require('../middlewares/sales.middleware');
 const router = express.Router();
 
 router.route('/')
+  .get(salesController.getAll)
   .post(salesMiddleware.validator, salesController.add);
 
 module.exports = router;

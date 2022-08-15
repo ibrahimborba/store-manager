@@ -13,4 +13,6 @@ const add = async (sales) => {
   return salesModel.add(sales);
 };
 
-module.exports = { add };
+const getAll = async () => salesModel.getAll();
+
+module.exports = { add, getAll };
