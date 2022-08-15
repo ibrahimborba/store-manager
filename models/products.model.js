@@ -33,4 +33,14 @@ const update = async (id, name) => {
 const erase = async (id) =>
   connection.execute('DELETE FROM StoreManager.products WHERE id = ?;', [id]);
 
-module.exports = { add, getAll, getByPK, update, erase };
+const search = async (query) => {
+  const [products] = await connection.execute(`
+  SELECT *
+    FROM StoreManager.products
+  WHERE name LIKE ?;`,
+    [`%${query}%`]);
+  console.log(products);
+  return products;
+};
+
+module.exports = { add, getAll, getByPK, update, erase, search };

@@ -30,4 +30,10 @@ const erase = async (req, res) => {
   return res.status(204).end();
 };
 
-module.exports = { add, getAll, getByPK, update, erase };
+const search = async (req, res) => {
+  const { q } = req.query;
+  const response = await productsService.search(q);
+  return res.status(200).json(response);
+};
+
+module.exports = { add, getAll, getByPK, update, erase, search };

@@ -23,4 +23,6 @@ const erase = async (id) => {
   return productsModel.erase(id);
 };
 
-module.exports = { add, getAll, getByPK, update, erase };
+const search = async (query) => productsModel.search(query);
+
+module.exports = { add, getAll, getByPK, update, erase, search };
