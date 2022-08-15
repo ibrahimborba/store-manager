@@ -17,4 +17,10 @@ const getByPK = async (req, res) => {
   return res.status(200).json(response);
 };
 
-module.exports = { add, getAll, getByPK };
+const erase = async (req, res) => {
+  const { id } = req.params;
+  await salesService.erase(id);
+  return res.status(204).end();
+};
+
+module.exports = { add, getAll, getByPK, erase };

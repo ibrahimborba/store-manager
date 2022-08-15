@@ -43,4 +43,9 @@ const getByPK = async (id) => {
   return sale;
 };
 
-module.exports = { add, getAll, getByPK };
+const erase = async (id) => {
+  await connection.execute('DELETE FROM StoreManager.sales_products WHERE sale_id = ?;', [id]);
+  return connection.execute('DELETE FROM StoreManager.sales WHERE id = ?;', [id]);
+};
+
+module.exports = { add, getAll, getByPK, erase };

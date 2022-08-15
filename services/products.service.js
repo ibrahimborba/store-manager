@@ -20,7 +20,6 @@ const update = async ({ id, name }) => {
 const erase = async (id) => {
   const product = await productsModel.getByPK(id);
   if (!product) return errors.customError(404, 'Product not found');
-  console.log(await productsModel.erase(id));
   return productsModel.erase(id);
 };
 

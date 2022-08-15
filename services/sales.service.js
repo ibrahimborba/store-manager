@@ -21,4 +21,10 @@ const getByPK = async (id) => {
   return sale;
 };
 
-module.exports = { add, getAll, getByPK };
+const erase = async (id) => {
+  const product = await salesModel.getByPK(id);
+  if (!product) return errors.customError(404, 'Sale not found');
+  return salesModel.erase(id);
+};
+
+module.exports = { add, getAll, getByPK, erase };
