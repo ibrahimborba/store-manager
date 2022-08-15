@@ -1,5 +1,6 @@
-const customError = (status, messsage) => {
-  const err = new Error(messsage);
+const customError = (status, message) => {
+  console.log(status, message);
+  const err = new Error(message);
   err.status = status;
   throw err;
 };
