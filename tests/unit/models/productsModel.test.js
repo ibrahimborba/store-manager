@@ -87,7 +87,7 @@ describe('Model add product to Database', () => {
 describe('Model update product in Database', () => {
   describe('Success case', () => {
     before(() => {
-      const stubResolve = [{ }];
+      const stubResolve = [{}];
       sinon.stub(connection, 'execute').resolves(stubResolve);
     });
 
@@ -102,4 +102,17 @@ describe('Model update product in Database', () => {
       expect(result).to.include.all.keys('id', 'name');
     });
   });
-})
+});
+
+describe('Model delete product in Database', () => {
+  describe('Success case', () => {
+    before(() => {
+      const stubResolve = [{}];
+      sinon.stub(connection, 'execute').resolves(stubResolve);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('to be called', async () => productsModel.erase("1"));
+  });
+});

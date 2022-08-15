@@ -84,7 +84,7 @@ describe('Controller update product in Database', () => {
   describe('Success case', () => {
     const response = {};
     const request = { params: '1', body: { name: "Martelo do Batman" } };
-    const stubResolve = {id: 1, name: "Martelo do Batman"};
+    const stubResolve = { id: 1, name: "Martelo do Batman" };
     before(() => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
@@ -99,7 +99,25 @@ describe('Controller update product in Database', () => {
     });
     it('to be called with an object', async () => {
       await productsController.update(request, response);
-      expect(response.json.calledWith({id: 1, name: "Martelo do Batman"})).to.be.equal(true);
+      expect(response.json.calledWith({ id: 1, name: "Martelo do Batman" })).to.be.equal(true);
     });
   });
-})
+});
+
+describe('Controller update product in Database', () => {
+  describe('Success case', () => {
+    const response = {};
+    const request = { params: '1' };
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    after(() => productsService.update.restore());
+
+    it('to be called with status 204', async () => {
+      await productsController.update(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+  });
+});

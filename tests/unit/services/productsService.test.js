@@ -97,18 +97,18 @@ describe('Service add product to Database', () => {
 describe('Service update product in Database', () => {
   describe('Success case', () => {
     before(() => {
-      const stubResolve = {id: "1", name: "Martelo do Batman"};
+      const stubResolve = { id: "1", name: "Martelo do Batman" };
       sinon.stub(productsModel, 'update').resolves(stubResolve);
     });
 
     after(() => productsModel.update.restore());
 
     it('returns an object if product exists in database', async () => {
-      const result = await productsService.update({id: "1", name: "Martelo do Batman"});
+      const result = await productsService.update({ id: "1", name: "Martelo do Batman" });
       expect(result).to.be.an('object');
     });
     it('object has expected keys', async () => {
-      const result = await productsService.update({id: "1", name: "Martelo do Batman"});
+      const result = await productsService.update({ id: "1", name: "Martelo do Batman" });
       expect(result).to.include.all.keys('id', 'name');
     });
   });
@@ -126,14 +126,44 @@ describe('Service update product in Database', () => {
     });
     
     it('throws expected error', async () => {
-      const stubThrows = { message: 'Product not found'};
+      const stubThrows = { message: 'Product not found' };
       sinon.stub(productsModel, 'getByPK').throws(stubThrows);
 
-      await productsService.getByPK('id').catch((err) => {
+      await productsService.update('id').catch((err) => {
         expect(err.message).to.equal('Product not found');
       });
 
       productsModel.getByPK.restore();
     });
   });
-})
+});
+
+describe('Service delete product in Database', () => {
+  describe('Success case', () => {
+    it('to be called', async () => productsService.erase("1"));
+  });
+
+  describe('Error case', () => {
+    it('checks if product exists in database', async () => {
+      const stubResolve = null;
+      sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
+
+      await productsService.erase('id').catch((err) => {
+        expect(err.message).to.equal('Product not found');
+      });
+
+      productsModel.getByPK.restore();
+    });
+    
+    it('throws expected error', async () => {
+      const stubThrows = { message: 'Product not found' };
+      sinon.stub(productsModel, 'getByPK').throws(stubThrows);
+
+      await productsService.erase('id').catch((err) => {
+        expect(err.message).to.equal('Product not found');
+      });
+
+      productsModel.getByPK.restore();
+    });
+  });
+});
