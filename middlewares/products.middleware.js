@@ -8,7 +8,7 @@ const productSchema = joi.object({
   }),
 });
 
-const validator = (req, _res) => {
+const validator = (req, _res, next) => {
   const product = { ...req.body };
   const { error } = productSchema.validate(product);
 
@@ -16,6 +16,7 @@ const validator = (req, _res) => {
     const [status, message] = error.message.split('|');
     return errors.customError(status, message);
   }
+  next();
 };
 
 module.exports = { validator };
