@@ -104,20 +104,22 @@ describe('Controller update product in Database', () => {
   });
 });
 
-describe('Controller update product in Database', () => {
+describe('Controller delete product in Database', () => {
   describe('Success case', () => {
     const response = {};
     const request = { params: '1' };
+    const stubResolve = [{}];
     before(() => {
       response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
+      response.end = sinon.stub().returns();
+      sinon.stub(productsService, 'erase').resolves(stubResolve);
     });
 
-    after(() => productsService.update.restore());
+    after(() => productsService.erase.restore());
 
     it('to be called with status 204', async () => {
-      await productsController.update(request, response);
-      expect(response.status.calledWith(200)).to.be.equal(true);
+      await productsController.erase(request, response);
+      expect(response.status.calledWith(204)).to.be.equal(true);
     });
   });
 });
