@@ -5,7 +5,7 @@ const salesModel = require('../../../models/sales.model');
 const salesService = require('../../../services/sales.service');
 
 describe('Service add sales to Database', () => {
-  describe('Add sales successfully', () => {
+  describe('Success case', () => {
     const sales =  [
       { productId: 1, quantity: 1 },
       { productId: 2, quantity: 5 },
@@ -196,6 +196,77 @@ describe('Service delete product in Database', () => {
       sinon.stub(salesModel, 'getByPK').throws(stubThrows);
 
       await salesService.erase('id').catch((err) => {
+        expect(err.message).to.equal('Sale not found');
+      });
+    });
+  });
+});
+
+describe('Service update sale in Database', () => {
+  describe('Success case', () => {
+    const saleUpdate =  {
+      saleId: 1,
+      itemsUpdated: [
+        { productId: 1, quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ],
+    };
+
+    before(() => {
+      const stubResolve = {
+        saleId: 1,
+        itemsUpdated: [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ],
+      };
+      sinon.stub(salesModel, 'update').resolves(stubResolve);
+    });
+
+    after(() => salesModel.update.restore());
+
+    it('returns an object if product exists in database', async () => {
+      const result = await salesService.update(saleUpdate);
+      expect(result).to.be.an('object');
+    });
+    it('object has expected keys and values', async () => {
+      const expected = {
+        saleId: 1,
+        itemsUpdated: [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ],
+      };
+      const result = await salesService.update(saleUpdate);
+      expect(result).to.eql(expected);
+    });
+  });
+
+  describe('Error case', () => {
+    const saleUpdate =  {
+      saleId: 'id',
+      itemsUpdated: [
+        { productId: 1, quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ],
+    };
+  
+    afterEach(() => salesModel.getByPK.restore());
+
+    it('checks if product exists in database', async () => {
+      const stubResolve = null;
+      sinon.stub(salesModel, 'getByPK').resolves(stubResolve);
+
+      await salesService.update(saleUpdate).catch((err) => {
+        expect(err.message).to.equal('Sale not found');
+      });
+    });
+    
+    it('throws expected error', async () => {
+      const stubThrows = { message: 'Sale not found' };
+      sinon.stub(salesModel, 'getByPK').throws(stubThrows);
+
+      await salesService.update(saleUpdate).catch((err) => {
         expect(err.message).to.equal('Sale not found');
       });
     });

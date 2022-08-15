@@ -130,3 +130,23 @@ describe('Model delete sale in Database', () => {
     it('to be called', async () => salesModel.erase("1"));
   });
 });
+
+describe('Model update sale in Database', () => {
+  describe('Success case', () => {
+    const sales =  [
+      { productId: 1, quantity: 10 },
+      { productId: 2, quantity: 50 },
+    ];
+    before(() => {
+      const stubResolve = [{}];
+      sinon.stub(connection, 'execute').resolves(stubResolve);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('returns an object', async () => {
+      const result = await salesModel.update(sales);
+      expect(result).to.be.an('object');
+    });
+  });
+});

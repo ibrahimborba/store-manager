@@ -160,3 +160,44 @@ describe('Controller delete sale in Database', () => {
     });
   });
 });
+
+describe('Controller update sale in Database', () => {
+  describe('Success case', () => {
+    const response = {};
+    const request = { params: '1', body: [
+        { productId: 1, quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ]};
+    const stubResolve = {
+      saleId: 1,
+      itemsUpdated: [
+        { productId: 1, quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ],
+    };
+
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      sinon.stub(salesService, 'update').resolves(stubResolve);
+    });
+
+    after(() => salesService.update.restore());
+
+    it('to be called with status 200', async () => {
+      await salesController.update(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+    it('to be called with an object', async () => {
+      const expected = {
+        saleId: 1,
+        itemsUpdated: [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ],
+      };
+      await salesController.update(request, response);
+      expect(response.json.calledWith(expected)).to.be.equal(true);
+    });
+  });
+});
