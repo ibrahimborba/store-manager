@@ -46,6 +46,8 @@ describe('Service add sales to Database', () => {
       { productId: 2, quantity: 5 },
     ];
 
+    afterEach(() => productsModel.getByPK.restore());
+
     it('checks if product exists in database', async () => {
       const stubResolve = null;
       sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
@@ -53,8 +55,6 @@ describe('Service add sales to Database', () => {
       await salesService.add(sales).catch((err) => {
         expect(err.message).to.equal('Product not found');
       });
-
-      productsModel.getByPK.restore();
     });
     it('throws expected error', async () => {
       const stubThrows = { message: 'Product not found'};
@@ -63,8 +63,6 @@ describe('Service add sales to Database', () => {
       await salesService.add(sales).catch((err) => {
         expect(err.message).to.equal('Product not found');
       });
-
-      productsModel.getByPK.restore();
     });
   });
 });
@@ -242,31 +240,48 @@ describe('Service update sale in Database', () => {
     });
   });
 
-  describe('Error case', () => {
-    const saleUpdate =  {
+  describe('Error cases', () => {
+    const saleNotFound =  {
       saleId: 'id',
       itemsUpdated: [
         { productId: 1, quantity: 10 },
         { productId: 2, quantity: 50 },
       ],
     };
-  
-    afterEach(() => salesModel.getByPK.restore());
 
-    it('checks if product exists in database', async () => {
+    const productNotFound =  {
+      saleId: '1',
+      itemsUpdated: [
+        { quantity: 10 },
+        { productId: 2, quantity: 50 },
+      ],
+    };
+
+    it('checks if sale exists in database', async () => {
       const stubResolve = null;
       sinon.stub(salesModel, 'getByPK').resolves(stubResolve);
 
-      await salesService.update(saleUpdate).catch((err) => {
+      await salesService.update(saleNotFound).catch((err) => {
         expect(err.message).to.equal('Sale not found');
       });
+
+      return salesModel.getByPK.restore();
     });
-    
+    it('checks if product exists in database', async () => {
+      const stubResolve = null;
+      sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
+
+      await salesService.update(productNotFound).catch((err) => {
+        expect(err.message).to.equal('Product not found');
+      });
+
+      return productsModel.getByPK.restore();
+    });
     it('throws expected error', async () => {
       const stubThrows = { message: 'Sale not found' };
       sinon.stub(salesModel, 'getByPK').throws(stubThrows);
 
-      await salesService.update(saleUpdate).catch((err) => {
+      await salesService.update(saleNotFound).catch((err) => {
         expect(err.message).to.equal('Sale not found');
       });
     });

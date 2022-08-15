@@ -133,7 +133,7 @@ describe('Model delete sale in Database', () => {
 
 describe('Model update sale in Database', () => {
   describe('Success case', () => {
-    const sales =  [
+    const itemsUpdated =  [
       { productId: 1, quantity: 10 },
       { productId: 2, quantity: 50 },
     ];
@@ -145,7 +145,7 @@ describe('Model update sale in Database', () => {
     after(() => connection.execute.restore());
 
     it('returns an object', async () => {
-      const result = await salesModel.update(sales);
+      const result = await salesModel.update("1", itemsUpdated);
       expect(result).to.be.an('object');
     });
   });
