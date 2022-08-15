@@ -24,4 +24,10 @@ const update = async (req, res) => {
   return res.status(200).json(response);
 };
 
-module.exports = { add, getAll, getByPK, update };
+const erase = async (req, res) => {
+  const { id } = req.params;
+  await productsService.erase(id);
+  return res.status(204).end();
+};
+
+module.exports = { add, getAll, getByPK, update, erase };

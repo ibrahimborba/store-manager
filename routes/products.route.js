@@ -10,6 +10,7 @@ router.route('/')
 
 router.route('/:id')
   .get(productsController.getByPK)
-  .put(productsMiddleware.validator, productsController.update);
+  .put(productsMiddleware.validator, productsController.update)
+  .delete(productsController.erase);
 
 module.exports = router;

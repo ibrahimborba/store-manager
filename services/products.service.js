@@ -17,4 +17,10 @@ const update = async ({ id, name }) => {
   return productsModel.update(id, name);
 };
 
-module.exports = { add, getAll, getByPK, update };
+const erase = async (id) => {
+  const product = await productsModel.getByPK(id);
+  if (!product) return errors.customError(404, 'Product not found');
+  return productsModel.erase(id);
+};
+
+module.exports = { add, getAll, getByPK, update, erase };
