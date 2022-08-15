@@ -164,3 +164,40 @@ describe('Service get sales from Database', () => {
     });
   });
 });
+
+describe('Service delete product in Database', () => {
+  describe('Success case', () => {
+    before(() => {
+      const stubResolve = [{}];
+      sinon.stub(salesModel, 'erase').resolves(stubResolve);
+    });
+
+    after(() => salesModel.erase.restore());
+
+    it('to be called', async () => {
+      await salesService.erase("1");
+    });
+  });
+
+  describe('Error case', () => {
+    afterEach(() => salesModel.getByPK.restore());
+
+    it('checks if product exists in database', async () => {
+      const stubResolve = null;
+      sinon.stub(salesModel, 'getByPK').resolves(stubResolve);
+
+      await salesService.erase('id').catch((err) => {
+        expect(err.message).to.equal('Product not found');
+      });
+    });
+    
+    it('throws expected error', async () => {
+      const stubThrows = { message: 'Product not found' };
+      sinon.stub(salesModel, 'getByPK').throws(stubThrows);
+
+      await salesService.erase('id').catch((err) => {
+        expect(err.message).to.equal('Product not found');
+      });
+    });
+  });
+});

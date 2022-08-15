@@ -115,3 +115,16 @@ describe('Model get sales from Database', () => {
     })
   });
 });
+
+describe('Model delete sale in Database', () => {
+  describe('Success case', () => {
+    before(() => {
+      const stubResolve = [{}];
+      sinon.stub(connection, 'execute').resolves(stubResolve);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('to be called', async () => salesModel.erase("1"));
+  });
+});

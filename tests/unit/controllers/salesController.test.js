@@ -140,3 +140,23 @@ describe('Controller get sales from Database', () => {
     })
   });
 });
+
+describe('Controller delete sale in Database', () => {
+  describe('Success case', () => {
+    const response = {};
+    const request = { params: '1' };
+    const stubResolve = [{}];
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.end = sinon.stub().returns();
+      sinon.stub(salesService, 'erase').resolves(stubResolve);
+    });
+
+    after(() => salesService.erase.restore());
+
+    it('to be called with status 204', async () => {
+      await salesController.erase(request, response);
+      expect(response.status.calledWith(204)).to.be.equal(true);
+    });
+  });
+});
