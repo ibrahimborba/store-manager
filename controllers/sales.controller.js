@@ -11,4 +11,10 @@ const getAll = async (_req, res) => {
   return res.status(200).json(response);
 };
 
-module.exports = { add, getAll };
+const getByPK = async (req, res) => {
+  const { id } = req.params;
+  const response = await salesService.getByPK(id);
+  return res.status(200).json(response);
+};
+
+module.exports = { add, getAll, getByPK };

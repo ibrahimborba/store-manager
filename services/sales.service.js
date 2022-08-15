@@ -15,4 +15,10 @@ const add = async (sales) => {
 
 const getAll = async () => salesModel.getAll();
 
-module.exports = { add, getAll };
+const getByPK = async (id) => {
+  const sale = await salesModel.getByPK(id);
+  if (!sale) return errors.customError(404, 'Sale not found');
+  return sale;
+};
+
+module.exports = { add, getAll, getByPK };
