@@ -87,33 +87,19 @@ describe('Model add product to Database', () => {
 describe('Model update product in Database', () => {
   describe('Success case', () => {
     before(() => {
-      const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
-      sinon.stub(connection, 'execute').resolves([stubResolve]);
+      const stubResolve = [{ }];
+      sinon.stub(connection, 'execute').resolves(stubResolve);
     });
 
     after(() => connection.execute.restore());
 
-    it('returns an object if product exists in Database', async () => {
-      const result = await productsModel.update({id: "1", name: "Martelo do Batman"});
+    it('returns an object', async () => {
+      const result = await productsModel.update("1", "Martelo do Batman");
       expect(result).to.be.an('object');
     });
     it('object has expected keys', async () => {
-      const result = await productsModel.update({id: "1", name: "Martelo do Batman"});
+      const result = await productsModel.update("1", "Martelo do Batman");
       expect(result).to.include.all.keys('id', 'name');
-    });
-  });
-
-  describe('Error case', () => {
-    before(() => {
-      const stubResolve = [];
-      sinon.stub(connection, 'execute').resolves([stubResolve]);
-    });
-
-    after(() => connection.execute.restore());
-
-    it('returns null if product does not exist in database', async () => {
-      const result = await productsModel.update({id: "id", name: "Martelo do Batman"});
-      expect(result).to.be.a('null');
     });
   });
 })

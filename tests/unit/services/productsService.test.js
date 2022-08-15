@@ -116,24 +116,24 @@ describe('Service update product in Database', () => {
   describe('Error case', () => {
     it('checks if product exists in database', async () => {
       const stubResolve = null;
-      sinon.stub(productsModel, 'update').resolves(stubResolve);
+      sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
 
       await productsService.update('id').catch((err) => {
         expect(err.message).to.equal('Product not found');
       });
 
-      productsModel.update.restore();
+      productsModel.getByPK.restore();
     });
     
     it('throws expected error', async () => {
       const stubThrows = { message: 'Product not found'};
-      sinon.stub(productsModel, 'update').throws(stubThrows);
+      sinon.stub(productsModel, 'getByPK').throws(stubThrows);
 
-      await productsService.update('id').catch((err) => {
+      await productsService.getByPK('id').catch((err) => {
         expect(err.message).to.equal('Product not found');
       });
 
-      productsModel.update.restore();
+      productsModel.getByPK.restore();
     });
   });
 })
