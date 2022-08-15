@@ -52,7 +52,7 @@ describe('Controller get products from Database', () => {
         await productsController.getByPK(request, response);
         expect(response.json.calledWith({ id: 1, name: "Martelo de Thor" })).to.be.equal(true);
       });
-    })
+    });
   });
 });
 
@@ -79,3 +79,27 @@ describe('Controller add product to Database', () => {
     });
   });
 });
+
+describe('Controller update product in Database', () => {
+  describe('Success case', () => {
+    const response = {};
+    const request = { params: '1' };
+    const stubResolve = {id: 1, name: "Martelo do Batman"};
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      sinon.stub(productsService, 'update').resolves(stubResolve);
+    });
+
+    after(() => productsService.update.restore());
+
+    it('to be called with status 200', async () => {
+      await productsController.update(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+    it('to be called with an object', async () => {
+      await productsController.update(request, response);
+      expect(response.json.calledWith({id: 1, name: "Martelo do Batman"})).to.be.equal(true);
+    });
+  });
+})

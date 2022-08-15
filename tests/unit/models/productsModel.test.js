@@ -46,7 +46,7 @@ describe('Model get products from Database', () => {
         const result = await productsModel.getByPK('1');
         expect(result).to.include.all.keys('id', 'name');
       });
-    })
+    });
 
     describe('Error case', () => {
       before(() => {
@@ -60,7 +60,7 @@ describe('Model get products from Database', () => {
         const result = await productsModel.getByPK('id');
         expect(result).to.be.a('null');
       });
-    })
+    });
   });
 });
 
@@ -83,3 +83,37 @@ describe('Model add product to Database', () => {
     });
   });
 });
+
+describe('Model update product in Database', () => {
+  describe('Success case', () => {
+    before(() => {
+      const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
+      sinon.stub(connection, 'execute').resolves([stubResolve]);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('returns an object if product exists in Database', async () => {
+      const result = await productsModel.update({id: "1", name: "Martelo do Batman"});
+      expect(result).to.be.an('object');
+    });
+    it('object has expected keys', async () => {
+      const result = await productsModel.update({id: "1", name: "Martelo do Batman"});
+      expect(result).to.include.all.keys('id', 'name');
+    });
+  });
+
+  describe('Error case', () => {
+    before(() => {
+      const stubResolve = [];
+      sinon.stub(connection, 'execute').resolves([stubResolve]);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('returns null if product does not exist in database', async () => {
+      const result = await productsModel.update({id: "id", name: "Martelo do Batman"});
+      expect(result).to.be.a('null');
+    });
+  });
+})
