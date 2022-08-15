@@ -120,7 +120,9 @@ describe('Model delete sale in Database', () => {
   describe('Success case', () => {
     before(() => {
       const stubResolve = [{}];
-      sinon.stub(connection, 'execute').resolves(stubResolve);
+      sinon.stub(connection, 'execute')
+        .onFirstCall().resolves(stubResolve)
+        .onSecondCall().resolves(stubResolve);
     });
 
     after(() => connection.execute.restore());

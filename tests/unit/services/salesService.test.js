@@ -182,21 +182,21 @@ describe('Service delete product in Database', () => {
   describe('Error case', () => {
     afterEach(() => salesModel.getByPK.restore());
 
-    it('checks if product exists in database', async () => {
+    it('checks if sale exists in database', async () => {
       const stubResolve = null;
       sinon.stub(salesModel, 'getByPK').resolves(stubResolve);
 
       await salesService.erase('id').catch((err) => {
-        expect(err.message).to.equal('Product not found');
+        expect(err.message).to.equal('Sale not found');
       });
     });
     
     it('throws expected error', async () => {
-      const stubThrows = { message: 'Product not found' };
+      const stubThrows = { message: 'Sale not found' };
       sinon.stub(salesModel, 'getByPK').throws(stubThrows);
 
       await salesService.erase('id').catch((err) => {
-        expect(err.message).to.equal('Product not found');
+        expect(err.message).to.equal('Sale not found');
       });
     });
   });
