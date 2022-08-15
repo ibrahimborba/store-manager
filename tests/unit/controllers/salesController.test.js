@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const salesService = require('../../../services/sales.service');
 const salesController = require('../../../controllers/sales.controller');
 
-describe('Model add sales to Database', () => {
+describe('Controller add sales to Database', () => {
   describe('Add sales successfully', () => {
     const response = {};
     const request = { body: [
@@ -11,10 +11,13 @@ describe('Model add sales to Database', () => {
       { productId: 2, quantity: 5 },
     ]
     };
-    const stubResolve = [
-      { productId: 1, quantity: 1 },
-      { productId: 2, quantity: 5 },
-    ];
+    const stubResolve = {
+      id: 3,
+      itemsSold: [
+        { productId: 1, quantity: 1 },
+        { productId: 2, quantity: 5 },
+      ],
+    };
     
     before(() => {
       response.status = sinon.stub().returns(response);

@@ -4,7 +4,7 @@ const productsModel = require('../../../models/products.model');
 const productsService = require('../../../services/products.service');
 const errors = require('../../../errors/customErrors');
 
-describe('Services get products from Database', () => {
+describe('Service get products from Database', () => {
   describe('Get all products', () => {
     before(() => {
       const stubResolve = [
@@ -58,9 +58,11 @@ describe('Services get products from Database', () => {
         await productsService.getByPK('id').catch((err) => {
           expect(err.message).to.equal('Product not found');
         });
+
+        productsModel.getByPK.restore();
       });
       
-     it('throws an error if product does not exist in database', async () => {
+     it('throws expected error', async () => {
         const stubThrows = { message: 'Product not found'};
         sinon.stub(productsModel, 'getByPK').throws(stubThrows);
 
