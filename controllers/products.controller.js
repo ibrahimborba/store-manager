@@ -20,7 +20,7 @@ const add = async (req, res) => {
 const update = async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
-  const response = await productsService.update(id, name);
+  const response = await productsService.update({ id, name });
   return res.status(200).json(response);
 };
 
