@@ -39,7 +39,6 @@ const search = async (query) => {
     FROM StoreManager.products
   WHERE name LIKE ?;`,
     [`%${query}%`]);
-  console.log(products);
   return products;
 };
 
