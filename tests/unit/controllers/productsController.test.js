@@ -127,7 +127,7 @@ describe('Controller delete product in Database', () => {
 describe('Controller search products in Database', () => {
   describe('Get all products', () => {
     const response = {};
-    const request = { query: "Martelo"};
+    const request = { query: { q: "Martelo" }};
     const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
 
     before(() => {
