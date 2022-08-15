@@ -106,46 +106,60 @@ describe('Service get sales from Database', () => {
   });
 
   describe('Get sale by id', () => {
-    const ID = 1;
     describe('Success case', () => {
       before(() => {
-        const stubResolve = { id: 1, name: "Martelo de Thor" };
-        sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
+        const stubResolve = [
+          {
+            date: "2021-09-09T04:54:29.000Z",
+            productId: 1,
+            quantity: 2,
+          },
+          {
+            date: "2021-09-09T04:54:54.000Z",
+            productId: 2,
+            quantity: 2
+          }
+        ];
+        sinon.stub(salesModel, 'getByPK').resolves(stubResolve);
       });
 
-      after(() => productsModel.getByPK.restore());
+      after(() => salesModel.getByPK.restore());
 
-      it('returns an object if sale exists in database', async () => {
-        const result = await productsService.getByPK('1');
-        expect(result).to.be.an('object');
+      it('returns an array of objects', async () => {
+        const result = await salesService.getByPK('1');
+        expect(result).to.be.an('array');
+      });
+      it('array elements are objects', async () => {
+        const result = await salesService.getByPK('1');
+        expect(result[0]).to.be.an('object');
       });
       it('object has expected keys', async () => {
-        const result = await productsService.getByPK('1');
-        expect(result).to.include.all.keys('id', 'name');
+        const result = await salesService.getByPK('1');
+        expect(result[0]).to.include.all.keys('date', 'productId', 'quantity');
       });
     });
 
     describe('Error case', () => {
       it('checks if sale exists in database', async () => {
         const stubResolve = null;
-        sinon.stub(productsModel, 'getByPK').resolves(stubResolve);
+        sinon.stub(salesModel, 'getByPK').resolves(stubResolve);
 
-        await productsService.getByPK('id').catch((err) => {
-          expect(err.message).to.equal('Product not found');
+        await salesService.getByPK('id').catch((err) => {
+          expect(err.message).to.equal('Sale not found');
         });
 
-        productsModel.getByPK.restore();
+        salesModel.getByPK.restore();
       });
       
      it('throws expected error', async () => {
-        const stubThrows = { message: 'Product not found'};
-        sinon.stub(productsModel, 'getByPK').throws(stubThrows);
+        const stubThrows = { message: 'Sale not found'};
+        sinon.stub(salesModel, 'getByPK').throws(stubThrows);
 
-        await productsService.getByPK('id').catch((err) => {
-          expect(err.message).to.equal('Product not found');
+        await salesService.getByPK('id').catch((err) => {
+          expect(err.message).to.equal('Sale not found');
         });
 
-        productsModel.getByPK.restore();
+        salesModel.getByPK.restore();
       });
     });
   });

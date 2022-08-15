@@ -2,7 +2,6 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const productsModel = require('../../../models/products.model');
 const productsService = require('../../../services/products.service');
-const errors = require('../../../errors/customErrors');
 
 describe('Service get products from Database', () => {
   describe('Get all products', () => {
@@ -31,7 +30,6 @@ describe('Service get products from Database', () => {
   });
 
   describe('Get product by id', () => {
-    const ID = 1;
     describe('Success case', () => {
       before(() => {
         const stubResolve = { id: 1, name: "Martelo de Thor" };

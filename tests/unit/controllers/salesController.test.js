@@ -98,22 +98,44 @@ describe('Controller get sales from Database', () => {
     describe('Success case', () => {
       const response = {};
       const request = { params: '1' };
-      const stubResolve = { id: 1, name: "Martelo de Thor" };
+        const stubResolve = [
+          {
+            date: "2021-09-09T04:54:29.000Z",
+            productId: 1,
+            quantity: 2,
+          },
+          {
+            date: "2021-09-09T04:54:54.000Z",
+            productId: 2,
+            quantity: 2
+          }
+        ];
       before(() => {
         response.status = sinon.stub().returns(response);
         response.json = sinon.stub().returns();
-        sinon.stub(productsService, 'getByPK').resolves(stubResolve);
+        sinon.stub(salesService, 'getByPK').resolves(stubResolve);
       });
 
-      after(() => productsService.getByPK.restore());
+      after(() => salesService.getByPK.restore());
 
       it('to be called with status 200', async () => {
-        await productsController.getByPK(request, response);
+        await salesController.getByPK(request, response);
         expect(response.status.calledWith(200)).to.be.equal(true);
       });
       it('to be called with an object', async () => {
-        await productsController.getByPK(request, response);
-        expect(response.json.calledWith({ id: 1, name: "Martelo de Thor" })).to.be.equal(true);
+        await salesController.getByPK(request, response);
+        expect(response.json.calledWith([
+          {
+            date: "2021-09-09T04:54:29.000Z",
+            productId: 1,
+            quantity: 2,
+          },
+          {
+            date: "2021-09-09T04:54:54.000Z",
+            productId: 2,
+            quantity: 2
+          }
+        ])).to.be.equal(true);
       });
     })
   });

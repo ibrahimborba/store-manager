@@ -30,7 +30,6 @@ describe('Model get products from Database', () => {
   });
 
   describe('Get product by id', () => {
-    const ID = 1;
     describe('Success case', () => {
       before(() => {
         const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
