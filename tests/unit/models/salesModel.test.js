@@ -45,8 +45,18 @@ describe('Model get sales from Database', () => {
   describe('Get all sales', () => {
     before(() => {
       const stubResolve = [
-        { id: 1, name: "Martelo de Thor" },
-        { id: 2, name: "Traje de encolhimento" },
+        {
+          saleId: 1,
+          date: "2021-09-09T04:54:29.000Z",
+          productId: 1,
+          quantity: 2,
+        },
+        {
+          saleId: 1,
+          date: "2021-09-09T04:54:54.000Z",
+          productId: 2,
+          quantity: 2
+        }
       ];
       sinon.stub(connection, 'execute').resolves([stubResolve]);
     });
@@ -54,16 +64,16 @@ describe('Model get sales from Database', () => {
     after(() => connection.execute.restore());
 
     it('returns an array of objects', async () => {
-      const result = await productsModel.getAll();
+      const result = await salesModel.getAll();
       expect(result).to.be.an('array');
     });
     it('array elements are objects', async () => {
-      const result = await productsModel.getAll();
+      const result = await salesModel.getAll();
       expect(result[0]).to.be.an('object');
     });
     it('object has expected keys', async () => {
-      const result = await productsModel.getAll();
-      expect(result[0]).to.include.all.keys('id', 'name');
+      const result = await salesModel.getAll();
+      expect(result[0]).to.include.all.keys('saleId', 'date', 'productId', 'quantity');
     });
   });
 
@@ -78,11 +88,11 @@ describe('Model get sales from Database', () => {
       after(() => connection.execute.restore());
 
       it('returns an object if sale exists in database', async () => {
-        const result = await productsModel.getByPK('1');
+        const result = await salesModel.getByPK('1');
         expect(result).to.be.an('object');
       });
       it('object has expected keys', async () => {
-        const result = await productsModel.getByPK('1');
+        const result = await salesModel.getByPK('1');
         expect(result).to.include.all.keys('id', 'name');
       });
     })
@@ -96,7 +106,7 @@ describe('Model get sales from Database', () => {
       after(() => connection.execute.restore());
 
       it('returns null if sale does not exist in database', async () => {
-        const result = await productsModel.getByPK('id');
+        const result = await salesModel.getByPK('id');
         expect(result).to.be.a('null');
       });
     })
