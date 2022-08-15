@@ -172,3 +172,27 @@ describe('Service delete product in Database', () => {
     });
   });
 });
+
+describe('Service search products in Database', () => {
+  describe('Success case', () => {
+      before(() => {
+      const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
+      sinon.stub(productsModel, 'search').resolves(stubResolve);
+    });
+
+    after(() => productsModel.search.restore());
+
+    it('returns an array of objects', async () => {
+      const result = await productsService.search('Martelo');
+      expect(result).to.be.an('array');
+    });
+    it('array elements are objects', async () => {
+      const result = await productsService.search('Martelo');
+      expect(result[0]).to.be.an('object');
+    });
+    it('object has expected keys', async () => {
+      const result = await productsService.search('Martelo');
+      expect(result[0]).to.include.all.keys('id', 'name');
+    });
+  });
+});

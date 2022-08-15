@@ -116,3 +116,27 @@ describe('Model delete product in Database', () => {
     it('to be called', async () => productsModel.erase("1"));
   });
 });
+
+describe('Model search products in Database', () => {
+  describe('Success case', () => {
+    before(() => {
+      const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
+      sinon.stub(connection, 'execute').resolves([stubResolve]);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('returns an array of objects', async () => {
+      const result = await productsModel.search('Martelo');
+      expect(result).to.be.an('array');
+    });
+    it('array elements are objects', async () => {
+      const result = await productsModel.search('Martelo');
+      expect(result[0]).to.be.an('object');
+    });
+    it('object has expected keys', async () => {
+      const result = await productsModel.search('Martelo');
+      expect(result[0]).to.include.all.keys('id', 'name');
+    });
+  });
+});

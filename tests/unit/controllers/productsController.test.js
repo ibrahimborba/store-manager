@@ -123,3 +123,28 @@ describe('Controller delete product in Database', () => {
     });
   });
 });
+
+describe('Controller search products in Database', () => {
+  describe('Get all products', () => {
+    const response = {};
+    const request = { query: "Martelo"};
+    const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
+
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      sinon.stub(productsService, 'search').resolves(stubResolve);
+    });
+
+    after(() => productsService.search.restore());
+
+    it('to be called with status 200', async () => {
+      await productsController.search(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+    });
+    it('to be called with array where elements are objects', async () => {
+      await productsController.search(request, response);
+      expect(response.json.calledWith([{ id: 1, name: "Martelo de Thor" }])).to.be.equal(true);
+    });
+  });
+});
