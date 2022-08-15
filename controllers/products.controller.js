@@ -17,4 +17,11 @@ const add = async (req, res) => {
   return res.status(201).json(response);
 };
 
-module.exports = { add, getAll, getByPK };
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  const response = await productsService.update(id, name);
+  return res.status(200).json(response);
+};
+
+module.exports = { add, getAll, getByPK, update };

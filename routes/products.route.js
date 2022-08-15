@@ -8,6 +8,8 @@ router.route('/')
   .get(productsController.getAll)
   .post(productsMiddleware.validator, productsController.add);
 
-router.get('/:id', productsController.getByPK);
+router.route('/:id')
+  .get(productsController.getByPK)
+  .put(productsMiddleware.validator, productsController.update);
 
 module.exports = router;

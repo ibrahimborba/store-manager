@@ -11,4 +11,10 @@ const getByPK = async (id) => {
 
 const add = async (name) => productsModel.add(name);
 
-module.exports = { add, getAll, getByPK };
+const update = async (id, name) => {
+  const product = await productsModel.getByPK(id);
+  if (!product) return errors.customError(404, 'Product not found');
+  return productsModel.update(id, name);
+};
+
+module.exports = { add, getAll, getByPK, update };
