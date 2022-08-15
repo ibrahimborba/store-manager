@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const productsService = require('../../../services/products.service');
 const productsController = require('../../../controllers/products.controller');
 
-describe('Controllers get products from Database', () => {
+describe('Controller get products from Database', () => {
   describe('Get all products', () => {
     const response = {};
     const request = {};

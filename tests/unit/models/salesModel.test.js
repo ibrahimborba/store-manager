@@ -40,3 +40,65 @@ describe('Model add sales to Database', () => {
     }); */
   });
 });
+
+describe('Model get sales from Database', () => {
+  describe('Get all sales', () => {
+    before(() => {
+      const stubResolve = [
+        { id: 1, name: "Martelo de Thor" },
+        { id: 2, name: "Traje de encolhimento" },
+      ];
+      sinon.stub(connection, 'execute').resolves([stubResolve]);
+    });
+
+    after(() => connection.execute.restore());
+
+    it('returns an array of objects', async () => {
+      const result = await productsModel.getAll();
+      expect(result).to.be.an('array');
+    });
+    it('array elements are objects', async () => {
+      const result = await productsModel.getAll();
+      expect(result[0]).to.be.an('object');
+    });
+    it('object has expected keys', async () => {
+      const result = await productsModel.getAll();
+      expect(result[0]).to.include.all.keys('id', 'name');
+    });
+  });
+
+  describe('Get sale by id', () => {
+    const ID = 1;
+    describe('Success case', () => {
+      before(() => {
+        const stubResolve = [{ id: 1, name: "Martelo de Thor" }];
+        sinon.stub(connection, 'execute').resolves([stubResolve]);
+      });
+
+      after(() => connection.execute.restore());
+
+      it('returns an object if sale exists in database', async () => {
+        const result = await productsModel.getByPK('1');
+        expect(result).to.be.an('object');
+      });
+      it('object has expected keys', async () => {
+        const result = await productsModel.getByPK('1');
+        expect(result).to.include.all.keys('id', 'name');
+      });
+    })
+
+    describe('Error case', () => {
+      before(() => {
+        const stubResolve = [];
+        sinon.stub(connection, 'execute').resolves([stubResolve]);
+      });
+
+      after(() => connection.execute.restore());
+
+      it('returns null if sale does not exist in database', async () => {
+        const result = await productsModel.getByPK('id');
+        expect(result).to.be.a('null');
+      });
+    })
+  });
+});
