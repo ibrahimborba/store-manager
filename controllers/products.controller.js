@@ -17,4 +17,4 @@ const add = async (req, res) => {
   return res.status(201).json(response);
 };
 
-module.exports = { getAll, getByPK, add };
+module.exports = { add, getAll, getByPK };

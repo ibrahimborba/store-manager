@@ -22,4 +22,4 @@ const add = async (name) => {
   return { id: product.insertId, name };
 };
 
-module.exports = { getAll, getByPK, add };
+module.exports = { add, getAll, getByPK };
