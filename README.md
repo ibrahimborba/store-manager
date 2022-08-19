@@ -67,6 +67,7 @@ npm run lint
 To enforce Clean Code and good practices, the following standards and resources were used in this project:
 * __TDD__ | Using Test Driven Development with a high coverage to guarantee good architecture and expected behaviors.
 * __Linter__ | Developed following the Clean Code standards specified by [Trybe's ESLint](https://github.com/betrybe/eslint-config-trybe).
+* __SonarCloud__ | Passing [SonarCloud's](https://sonarcloud.io/) quality standards and analysis. Check the evaluation [here](https://sonarcloud.io/project/overview?id=ibrahimborba_store-manager).
 ## Git, GitHub and Commits
 Commited using the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/) with some types from [Angular convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines).
 
