@@ -1,6 +1,9 @@
 const salesModel = require('../models/sales.model');
 const productsModel = require('../models/products.model');
-const errors = require('../errors/customErrors');
+const errors = require('../errors');
+
+const PRODUCT_NOT_FOUND = 'Product not found';
+const SALE_NOT_FOUND = 'Sale not found';
 
 const add = async (sales) => {
   const notFound = await sales.reduce(async (acc, sale) => {
@@ -9,7 +12,7 @@ const add = async (sales) => {
     return acc;
   }, false);
 
-  if (notFound) return errors.customError(404, 'Product not found');
+  if (notFound) return errors.notFound(PRODUCT_NOT_FOUND);
   return salesModel.add(sales);
 };
 
@@ -17,26 +20,26 @@ const getAll = async () => salesModel.getAll();
 
 const getByPK = async (id) => {
   const sale = await salesModel.getByPK(id);
-  if (!sale) return errors.customError(404, 'Sale not found');
+  if (!sale) return errors.notFound(SALE_NOT_FOUND);
   return sale;
 };
 
 const erase = async (id) => {
   const sale = await salesModel.getByPK(id);
-  if (!sale) return errors.customError(404, 'Sale not found');
+  if (!sale) return errors.notFound(SALE_NOT_FOUND);
   return salesModel.erase(id);
 };
 
 const update = async ({ saleId, itemsUpdated }) => {
   const sale = await salesModel.getByPK(saleId);
-  if (!sale) return errors.customError(404, 'Sale not found');
+  if (!sale) return errors.notFound(SALE_NOT_FOUND);
 
   const productNotFound = await itemsUpdated.reduce(async (acc, item) => {
     const product = await productsModel.getByPK(item.productId);
     if (!product) return true;
     return acc;
   }, false);
-  if (productNotFound) return errors.customError(404, 'Product not found');
+  if (productNotFound) return errors.notFound(PRODUCT_NOT_FOUND);
 
   return salesModel.update(saleId, itemsUpdated);
 };

@@ -1,5 +1,5 @@
 const joi = require('joi');
-const errors = require('../errors/customErrors');
+const errors = require('../errors');
 
 const productSchema = joi.object({
   name: joi.string().min(5).required().messages({
