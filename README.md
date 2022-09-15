@@ -9,6 +9,7 @@ A RESTful API that uses MSC architecture to manage a Store's sales and products.
 - [Technologies, tools and architectures used](#technologies-tools-and-architectures-used)
 - [Installing and running the app](#installing-and-running-the-app)
 - [Notes](#notes)
+  - [Documentation](#documentation)
   - [Code quality](#code-quality)
   - [Git, GitHub and Commits](#git-github-and-commits)
 
@@ -28,6 +29,10 @@ This project used the following technologies and tools:
   * __MySQL__ | [Creating and managing databases](https://www.mysqltutorial.org/).
   * __MSC__ | [Improve code organization, maintenance and scalability](https://martinfowler.com/architecture/).
   * __REST__ | [Simple architecture and highly popular](https://restfulapi.net/).
+
+*Store Manager MSC architecture diagram.*
+
+<img src="./images/architecture.png" width="500" alt="Store Manager architecture diagram">
 
 # Installing and running the app
 ### Install dependencies
@@ -63,6 +68,8 @@ npm run lint
 ```
 
 # Notes
+## Documentation
+API's documentation can be [found here](https://documenter.getpostman.com/view/22534963/2s7YfGDwwG).
 ## Code quality
 To enforce Clean Code and good practices, the following standards and resources were used in this project:
 * __TDD__ | Using Test Driven Development with a high coverage to guarantee good architecture and expected behaviors.
